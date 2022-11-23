@@ -1,0 +1,6 @@
+[versions]
+horologist = "0.1.15"
+
+[libraries]
+horologist-composables = { module = "com.google.android.horologist:horologist-composables", version.ref = "horologist" }
+horologist-compose-layout = { module = "com.google.android.horologist:horologist-compose-layout", version.ref = "horologist" }
