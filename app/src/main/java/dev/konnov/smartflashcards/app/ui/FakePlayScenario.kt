@@ -8,7 +8,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.ScalingLazyListState
 import androidx.wear.compose.material.Text
-import dev.konnov.smartflashcards.app.domain.Card
+import dev.konnov.smartflashcards.app.domain.entity.Card
 
 // This game scenario is just for demo, it'll likely be removed
 @Composable

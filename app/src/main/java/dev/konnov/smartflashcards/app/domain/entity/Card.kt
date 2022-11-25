@@ -1,4 +1,4 @@
-package dev.konnov.smartflashcards.app.domain
+package dev.konnov.smartflashcards.app.domain.entity
 
 data class Card(
     val front: String,
