@@ -1,6 +1,17 @@
 [versions]
 horologist = "0.1.15"
+navigation = "2.4.2"
+lifecycle-viewmodel-ktx = "2.4.1"
+hilt-navigation-compose = "1.0.0"
+dagger-hilt = "2.44.2"
+hilt-compiler = "1.0.0"
 
 [libraries]
 horologist-composables = { module = "com.google.android.horologist:horologist-composables", version.ref = "horologist" }
 horologist-compose-layout = { module = "com.google.android.horologist:horologist-compose-layout", version.ref = "horologist" }
+navigation = { module = "androidx.navigation:navigation-compose", version.ref = "navigation" }
+hiltNavigationCompose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
+hiltCompiler = { module = "androidx.hilt:hilt-compiler", version.ref = "hilt-compiler" }
+hiltAndroidCompiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "dagger-hilt" }
+daggerHiltAndroid = { module = "com.google.dagger:hilt-android", version.ref = "dagger-hilt" }
+gradlePluginHiltAndroid = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "dagger-hilt" }

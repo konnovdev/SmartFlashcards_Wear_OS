@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -49,6 +51,9 @@ android {
 }
 
 dependencies {
+    implementation libs.daggerHiltAndroid
+    kapt(libs.hiltAndroidCompiler)
+    kapt(libs.hiltCompiler)
 
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'com.google.android.gms:play-services-wearable:18.0.0'
@@ -67,4 +72,6 @@ dependencies {
 
     implementation libs.horologist.composables
     implementation libs.horologist.compose.layout
+    implementation libs.navigation
+    implementation libs.hiltNavigationCompose
 }
