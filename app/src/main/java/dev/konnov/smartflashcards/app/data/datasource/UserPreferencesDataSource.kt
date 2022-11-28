@@ -6,7 +6,7 @@ class UserPreferencesDataSource @Inject constructor(){
 
     private var selectedMockDeckId = "deck1"
 
-    private var selectedMockCardId = 3
+    private var selectedMockCardId = 1
 
     suspend fun getSelectedDeckId(): String = selectedMockDeckId
 

@@ -7,9 +7,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.konnov.smartflashcards.app.domain.entity.Card
 import dev.konnov.smartflashcards.app.domain.usecase.GetNextCardUseCase
 import dev.konnov.smartflashcards.app.domain.usecase.SetCardAnsweredUseCase
+import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -21,7 +23,7 @@ class CardScreenViewModel @Inject constructor(
     private val _state = MutableStateFlow<CardScreenState>(CardScreenState.Loading)
     val state: StateFlow<CardScreenState> = _state
 
-    var currentCard: Card? = null
+    private var currentCard: Card? = null
 
     init {
         loadNewCard()
@@ -53,7 +55,7 @@ class CardScreenViewModel @Inject constructor(
 
     private fun loadNewCard() {
         viewModelScope.launch {
-            runCatching { getNextCardUseCase() }
+            runCatching { withContext(IO) { getNextCardUseCase() } }
                 .onSuccess {
                     _state.value = CardScreenState.FrontCard(it.front)
                     currentCard = it

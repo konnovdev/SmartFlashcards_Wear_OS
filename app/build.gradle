@@ -74,4 +74,7 @@ dependencies {
     implementation libs.horologist.compose.layout
     implementation libs.navigation
     implementation libs.hiltNavigationCompose
+    implementation libs.ktorClientCore
+    implementation libs.ktorClientAndroid
+    implementation libs.ktorClientLoggingJvm
 }

@@ -17,9 +17,9 @@ class GetNextCardUseCase @Inject constructor(
     suspend operator fun invoke(): Card {
         val currentDeck = userPreferencesRepository.getSelectedDeckId()
         val deckProgress = deckProgressRepository.get(currentDeck)
-        val nextCardId = smartCardSelectorRepository.selectNextCard(deckProgress)
+        val allCards = cardRepository.getAll(currentDeck)
+        val nextCardId = smartCardSelectorRepository.selectNextCard(deckProgress, allCards)
         userPreferencesRepository.setCurrentCardId(nextCardId)
-
         return cardRepository.get(currentDeck, nextCardId)
     }
 }
