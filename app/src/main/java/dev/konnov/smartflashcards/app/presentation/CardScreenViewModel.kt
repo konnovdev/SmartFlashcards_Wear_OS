@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.konnov.smartflashcards.app.domain.entity.Card
 import dev.konnov.smartflashcards.app.domain.usecase.GetNextCardUseCase
+import dev.konnov.smartflashcards.app.domain.usecase.GetNumOfCardsToShowOnLaunchUseCase
 import dev.konnov.smartflashcards.app.domain.usecase.SetCardAnsweredUseCase
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,12 +17,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CardScreenViewModel @Inject constructor(
-    val getNextCardUseCase: GetNextCardUseCase,
-    val setCardAnsweredUseCase: SetCardAnsweredUseCase
+    private val getNumOfCardsToShowUseCase: GetNumOfCardsToShowOnLaunchUseCase,
+    private val getNextCardUseCase: GetNextCardUseCase,
+    private val setCardAnsweredUseCase: SetCardAnsweredUseCase
 ) : ViewModel() {
 
     private val _state = MutableStateFlow<CardScreenState>(CardScreenState.Loading)
     val state: StateFlow<CardScreenState> = _state
+
+    private val numOfCardsToShow = getNumOfCardsToShowUseCase()
+    private var cardsShown = 0
 
     private var currentCard: Card? = null
 
@@ -36,14 +41,22 @@ class CardScreenViewModel @Inject constructor(
             }
 
             CardScreenAction.CardCorrect -> {
-                setCurrentCardAnswered(answeredCorrectly = true) {
-                    loadNewCard()
+                if (cardsShown >= numOfCardsToShow) {
+                    _state.value = CardScreenState.Finish
+                } else {
+                    setCurrentCardAnswered(answeredCorrectly = true) {
+                        loadNewCard()
+                    }
                 }
             }
 
             CardScreenAction.CardWrong -> {
-                setCurrentCardAnswered(answeredCorrectly = false) {
-                    loadNewCard()
+                if (cardsShown >= numOfCardsToShow) {
+                    _state.value = CardScreenState.Finish
+                } else {
+                    setCurrentCardAnswered(answeredCorrectly = false) {
+                        loadNewCard()
+                    }
                 }
             }
         }
@@ -61,6 +74,7 @@ class CardScreenViewModel @Inject constructor(
                 .onSuccess {
                     _state.value = CardScreenState.FrontCard(it.front)
                     currentCard = it
+                    cardsShown++
                 }
                 .onFailure {
                     Log.e("CardScreenViewModel", "Error while loading new card", it)
