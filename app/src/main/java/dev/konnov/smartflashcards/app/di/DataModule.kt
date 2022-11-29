@@ -21,6 +21,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import javax.inject.Singleton
 import dev.konnov.smartflashcards.app.UserPreferences
+import androidx.room.Room
+import dev.konnov.smartflashcards.app.data.database.room.CardDao
+import dev.konnov.smartflashcards.app.data.database.room.DeckProgressDao
+import dev.konnov.smartflashcards.app.data.database.room.RoomAppDatabase
 import dev.konnov.smartflashcards.app.data.database.userPreferencesDataStore
 
 @Module
@@ -54,5 +58,26 @@ interface DataModule {
         fun provideUserPreferencesDataStore(
             @ApplicationContext context: Context
         ): DataStore<UserPreferences> = context.userPreferencesDataStore
+
+        @Singleton
+        @Provides
+        fun provideAppDb(
+            @ApplicationContext appContext: Context
+        ): RoomAppDatabase = Room.databaseBuilder(
+            appContext,
+            RoomAppDatabase::class.java, "room-db"
+        ).build()
+
+        @Singleton
+        @Provides
+        fun provideCardDao(
+            db: RoomAppDatabase
+        ): CardDao = db.cardDao()
+
+        @Singleton
+        @Provides
+        fun provideDeckProgressDao(
+            db: RoomAppDatabase
+        ): DeckProgressDao = db.deckProgressDao()
     }
 }

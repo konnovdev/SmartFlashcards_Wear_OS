@@ -7,6 +7,7 @@ import dev.konnov.smartflashcards.app.domain.entity.DeckProgress
 import dev.konnov.smartflashcards.app.domain.repository.DeckProgressRepository
 import javax.inject.Inject
 
+// TODO add caching
 class DeckProgressRepositoryImpl @Inject constructor(
     private val dataSource: DeckProgressDataSource,
     private val converter: DeckProgressConverter

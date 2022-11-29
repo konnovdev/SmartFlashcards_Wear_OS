@@ -1,6 +1,6 @@
 package dev.konnov.smartflashcards.app.data.converter
 
-import dev.konnov.smartflashcards.app.data.model.DeckProgressModel
+import dev.konnov.smartflashcards.app.data.model.CardProgressModel
 import dev.konnov.smartflashcards.app.domain.entity.CardId
 import dev.konnov.smartflashcards.app.domain.entity.CardProgress
 import dev.konnov.smartflashcards.app.domain.entity.DeckProgress
@@ -9,10 +9,10 @@ import javax.inject.Inject
 
 class DeckProgressConverter @Inject constructor() {
 
-    fun convert(deckProgressModel: DeckProgressModel): DeckProgress =
+    fun convert(cardProgressModel: List<CardProgressModel>): DeckProgress =
         DeckProgress(
-            deckProgressModel.progress.first().deckId,
-            deckProgressModel.progress.map {
+            cardProgressModel.firstOrNull()?.deckId ?: "deck1",
+            cardProgressModel.map {
                 CardProgress(
                     CardId(it.cardId),
                     Retention.fromInt(it.retention),

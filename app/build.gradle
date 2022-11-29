@@ -102,4 +102,7 @@ dependencies {
     implementation libs.ktorClientAndroid
     implementation libs.ktorClientLoggingJvm
     implementation libs.datastore
+    implementation(libs.roomRuntime)
+    implementation(libs.roomKtx)
+    kapt(libs.roomCompiler)
 }
