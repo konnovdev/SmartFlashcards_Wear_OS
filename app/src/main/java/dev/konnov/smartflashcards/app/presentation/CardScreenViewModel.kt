@@ -68,7 +68,7 @@ class CardScreenViewModel @Inject constructor(
 
     private fun setCurrentCardAnswered(answeredCorrectly: Boolean) {
         viewModelScope.launch {
-            runCatching { setCardAnsweredUseCase(answeredCorrectly) }
+            runCatching { withContext(IO) { setCardAnsweredUseCase(answeredCorrectly) } }
                 .onFailure { Log.e("CardScreenViewModel", "Error while setting card answered", it) }
         }
     }

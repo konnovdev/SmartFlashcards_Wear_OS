@@ -4,13 +4,14 @@ import androidx.datastore.core.DataStore
 import dev.konnov.smartflashcards.app.UserPreferences
 import javax.inject.Inject
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 
 class UserPreferencesDataSource @Inject constructor(
     private val datastore: DataStore<UserPreferences>
 ) {
 
-    suspend fun getSelectedDeckId(): String =
-        datastore.data.first().deckId ?: "deck1".also { setSelectedDeckId(it) }
+    suspend fun getSelectedDeckId(): String? =
+        datastore.data.first().deckId
 
     suspend fun setSelectedDeckId(deckId: String) {
         datastore.updateData { userPreferences ->
@@ -20,13 +21,8 @@ class UserPreferencesDataSource @Inject constructor(
         }
     }
 
-    suspend fun getCurrentCardId(): Int {
-        val savedCardId = datastore.data.first().cardId
-        if (savedCardId == 0) {
-            return 1.also { setCurrentCardId(it) }
-        }
-        return savedCardId
-    }
+    suspend fun getCurrentCardId(): Int =
+        datastore.data.first().cardId
 
     suspend fun setCurrentCardId(cardId: Int) {
         datastore.updateData { userPreferences ->
