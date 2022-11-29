@@ -74,6 +74,7 @@ protobuf {
 
 dependencies {
     implementation libs.daggerHiltAndroid
+    implementation 'androidx.compose.material:material-icons-core:1.1.1'
     kapt(libs.hiltAndroidCompiler)
     kapt(libs.hiltCompiler)
 

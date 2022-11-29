@@ -4,11 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.wear.compose.material.*
 import dev.konnov.smartflashcards.app.presentation.CardScreenViewModel
 import dev.konnov.smartflashcards.app.theme.SmartFlashcardsTheme
@@ -18,6 +15,7 @@ import dev.konnov.smartflashcards.app.presentation.CardScreenAction
 import dev.konnov.smartflashcards.app.presentation.CardScreenState
 import dev.konnov.smartflashcards.app.ui.CardBackScreen
 import dev.konnov.smartflashcards.app.ui.CardFrontScreen
+import dev.konnov.smartflashcards.app.ui.SuccessScreen
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -74,13 +72,7 @@ fun ShowCard(
         }
 
         is CardScreenState.Finish -> {
-            Text( // TODO replace with some nice screen
-                text = "FINISHED!!!",
-                Modifier
-                    .fillMaxSize()
-                    .padding(top = 64.dp),
-                textAlign = TextAlign.Center
-            )
+            SuccessScreen()
         }
     }
 }
