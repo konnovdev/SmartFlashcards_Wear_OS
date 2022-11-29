@@ -1,9 +1,13 @@
 package dev.konnov.smartflashcards.app.di
 
+import android.content.Context
+import android.content.SharedPreferences
+import androidx.datastore.core.DataStore
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dev.konnov.smartflashcards.app.data.repository.CardRepositoryImpl
 import dev.konnov.smartflashcards.app.data.repository.DeckProgressRepositoryImpl
@@ -17,6 +21,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import javax.inject.Singleton
+import dev.konnov.smartflashcards.app.UserPreferences
+import androidx.room.Room
+import dev.konnov.smartflashcards.app.data.database.room.CardDao
+import dev.konnov.smartflashcards.app.data.database.room.DeckProgressDao
+import dev.konnov.smartflashcards.app.data.database.room.RoomAppDatabase
+import dev.konnov.smartflashcards.app.data.database.userPreferencesDataStore
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -40,7 +50,44 @@ interface DataModule {
 
     companion object {
 
+        @Singleton
         @Provides
         fun coroutineScope(): CoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
+        @Singleton
+        @Provides
+        fun provideUserPreferencesDataStore(
+            @ApplicationContext context: Context
+        ): DataStore<UserPreferences> = context.userPreferencesDataStore
+
+        @Singleton
+        @Provides
+        fun provideAppDb(
+            @ApplicationContext appContext: Context
+        ): RoomAppDatabase = Room.databaseBuilder(
+            appContext,
+            RoomAppDatabase::class.java, "room-db"
+        ).build()
+
+        @Singleton
+        @Provides
+        fun provideCardDao(
+            db: RoomAppDatabase
+        ): CardDao = db.cardDao()
+
+        @Singleton
+        @Provides
+        fun provideDeckProgressDao(
+            db: RoomAppDatabase
+        ): DeckProgressDao = db.deckProgressDao()
+
+        @Singleton
+        @Provides
+        fun provideUserSharedPreferences(
+            @ApplicationContext appContext: Context
+        ): SharedPreferences = appContext.getSharedPreferences(
+            "user_shared_preferences",
+            Context.MODE_PRIVATE
+        )
     }
 }

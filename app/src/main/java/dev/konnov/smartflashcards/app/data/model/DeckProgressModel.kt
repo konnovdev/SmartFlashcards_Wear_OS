@@ -1,12 +1,13 @@
 package dev.konnov.smartflashcards.app.data.model
 
-class DeckProgressModel(
-    val progress: List<CardProgressModel>
-)
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
+@Entity(tableName = "deckProgress")
 data class CardProgressModel(
-    val deckId: String,
-    val cardId: Int,
-    val retention: Int,
-    val times_card_shown: Int
+    @ColumnInfo(name = "deckId") val deckId: String,
+    @ColumnInfo(name = "cardId") @PrimaryKey val cardId: Int,
+    @ColumnInfo(name = "retention") val retention: Int,
+    @ColumnInfo(name = "timesCardShown") val times_card_shown: Int
 )

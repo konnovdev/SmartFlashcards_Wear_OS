@@ -1,23 +1,28 @@
 package dev.konnov.smartflashcards.app.data.datasource
 
+import dev.konnov.smartflashcards.app.data.database.room.DeckProgressDao
 import dev.konnov.smartflashcards.app.data.model.CardProgressModel
-import dev.konnov.smartflashcards.app.data.model.DeckProgressModel
 import javax.inject.Inject
 
-class DeckProgressDataSource @Inject constructor() {
+class DeckProgressDataSource @Inject constructor(
+    private val deckProgressDao: DeckProgressDao
+) {
 
-    suspend fun get(deckId: String): DeckProgressModel = mockData
+    suspend fun get(deckId: String): List<CardProgressModel> =
+        deckProgressDao.getAll() // we don't care about deck id for now
 
     suspend fun cardAnswered(deckId: String, cardId: Int, correct: Boolean) {
-        setCardAnsweredMock(cardId, correct, deckId)
+        setCardAnswered(cardId, correct, deckId)
     }
 
-    private fun setCardAnsweredMock(
+    // TODO make a more complex algorithm
+    private suspend fun setCardAnswered(
         cardId: Int,
         correct: Boolean,
         deckId: String
     ) {
-        val card = mockData.progress.find { it.cardId == cardId }
+        val card =
+            deckProgressDao.getAll().find { it.cardId == cardId } // use SELECT WHERE statement
 
         if (card == null) {
             val cardProgress = if (correct) {
@@ -25,7 +30,7 @@ class DeckProgressDataSource @Inject constructor() {
             } else {
                 CardProgressModel(deckId, cardId, 1, 1)
             }
-            (mockData.progress as MutableList).add(cardProgress)
+            deckProgressDao.insertDeck(cardProgress)
         } else {
             var newRetention: Int
             if (correct) {
@@ -42,14 +47,7 @@ class DeckProgressDataSource @Inject constructor() {
             val cardProgress =
                 CardProgressModel(deckId, cardId, newRetention, card.times_card_shown + 1)
 
-            (mockData.progress as MutableList).add(cardProgress)
+            deckProgressDao.insertDeck(cardProgress)
         }
     }
-
-    private val mockData = DeckProgressModel(
-        mutableListOf(
-            CardProgressModel("deck1", 2, 2, 4),
-            CardProgressModel("deck1", 3, 5, 1),
-        )
-    )
 }

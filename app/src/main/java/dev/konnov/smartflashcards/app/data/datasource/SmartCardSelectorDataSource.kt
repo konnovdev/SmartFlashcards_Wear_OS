@@ -10,5 +10,5 @@ class SmartCardSelectorDataSource @Inject constructor() {
 
     private fun selectMock(deckProgress: DeckProgress, cards: List<Card>): Int =
         cards.map { it.id.value }
-            .first { cardId -> deckProgress.progress.none { it.cardId.value == cardId } }
+            .first { cardId -> cardId !in deckProgress.progress.map { it.cardId.value } }
 }

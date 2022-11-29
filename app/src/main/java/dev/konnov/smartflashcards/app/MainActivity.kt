@@ -52,7 +52,7 @@ fun ShowCard(
 
     when (val screenState = state) {
         is CardScreenState.Loading -> {
-            Unit
+            CircularProgressIndicator(modifier = Modifier.fillMaxSize())
         }
 
         is CardScreenState.FrontCard -> {

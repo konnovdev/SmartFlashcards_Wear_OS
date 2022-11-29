@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "dev.konnov.smartflashcards.app";
+
+message UserPreferences {
+  optional string deckId = 1;
+  optional int32 cardId = 2;
+}

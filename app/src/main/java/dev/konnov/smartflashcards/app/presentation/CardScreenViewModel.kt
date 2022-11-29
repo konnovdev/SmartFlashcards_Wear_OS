@@ -36,13 +36,15 @@ class CardScreenViewModel @Inject constructor(
             }
 
             CardScreenAction.CardCorrect -> {
-                setCurrentCardAnswered(answeredCorrectly = true)
-                loadNewCard()
+                setCurrentCardAnswered(answeredCorrectly = true) {
+                    loadNewCard()
+                }
             }
 
             CardScreenAction.CardWrong -> {
-                setCurrentCardAnswered(answeredCorrectly = false)
-                loadNewCard()
+                setCurrentCardAnswered(answeredCorrectly = false) {
+                    loadNewCard()
+                }
             }
         }
     }
@@ -66,9 +68,10 @@ class CardScreenViewModel @Inject constructor(
         }
     }
 
-    private fun setCurrentCardAnswered(answeredCorrectly: Boolean) {
+    private fun setCurrentCardAnswered(answeredCorrectly: Boolean, onAnswerRecorded: () -> Unit) {
         viewModelScope.launch {
-            runCatching { setCardAnsweredUseCase(answeredCorrectly) }
+            runCatching { withContext(IO) { setCardAnsweredUseCase(answeredCorrectly) } }
+                .onSuccess { onAnswerRecorded() }
                 .onFailure { Log.e("CardScreenViewModel", "Error while setting card answered", it) }
         }
     }

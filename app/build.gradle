@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-kapt'
+    id "com.google.protobuf" version "0.9.1"
 }
 
 android {
@@ -50,10 +51,33 @@ android {
     }
 }
 
+protobuf {
+    // Configures the Protobuf compilation and the protoc executable
+    protoc {
+        // Downloads from the repositories
+        artifact = "com.google.protobuf:protoc:3.21.9"
+    }
+
+    // Generates the java Protobuf-lite code for the Protobufs in this project
+    generateProtoTasks {
+        all().each { task ->
+            task.builtins {
+                // Configures the task output type
+                java {
+                    // Java Lite has smaller code size and is recommended for Android
+                    option 'lite'
+                }
+            }
+        }
+    }
+}
+
 dependencies {
     implementation libs.daggerHiltAndroid
     kapt(libs.hiltAndroidCompiler)
     kapt(libs.hiltCompiler)
+
+    implementation  "com.google.protobuf:protobuf-javalite:3.21.9"
 
     implementation 'androidx.core:core-ktx:1.9.0'
     implementation 'com.google.android.gms:play-services-wearable:18.0.0'
@@ -77,4 +101,8 @@ dependencies {
     implementation libs.ktorClientCore
     implementation libs.ktorClientAndroid
     implementation libs.ktorClientLoggingJvm
+    implementation libs.datastore
+    implementation(libs.roomRuntime)
+    implementation(libs.roomKtx)
+    kapt(libs.roomCompiler)
 }
