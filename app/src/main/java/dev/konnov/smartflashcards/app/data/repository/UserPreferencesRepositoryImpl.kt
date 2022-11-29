@@ -19,6 +19,8 @@ class UserPreferencesRepositoryImpl @Inject constructor(
                 val defaultDeck1 = "deck1"
                 cachedDeckId = defaultDeck1
                 dataSource.setSelectedDeckId("deck1")
+            } else {
+                cachedDeckId = deckIdFromDataSource
             }
         }
         return requireNotNull(cachedDeckId)

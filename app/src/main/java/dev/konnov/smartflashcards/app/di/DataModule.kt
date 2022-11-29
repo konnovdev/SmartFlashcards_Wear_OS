@@ -1,6 +1,7 @@
 package dev.konnov.smartflashcards.app.di
 
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.datastore.core.DataStore
 import dagger.Binds
 import dagger.Module
@@ -79,5 +80,14 @@ interface DataModule {
         fun provideDeckProgressDao(
             db: RoomAppDatabase
         ): DeckProgressDao = db.deckProgressDao()
+
+        @Singleton
+        @Provides
+        fun provideUserSharedPreferences(
+            @ApplicationContext appContext: Context
+        ): SharedPreferences = appContext.getSharedPreferences(
+            "user_shared_preferences",
+            Context.MODE_PRIVATE
+        )
     }
 }
