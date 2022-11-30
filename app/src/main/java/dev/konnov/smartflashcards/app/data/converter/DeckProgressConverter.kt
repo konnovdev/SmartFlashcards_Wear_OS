@@ -16,7 +16,8 @@ class DeckProgressConverter @Inject constructor() {
                 CardProgress(
                     CardId(it.cardId),
                     Retention.fromInt(it.retention),
-                    it.times_card_shown
+                    it.timesCardShown,
+                    it.lastShownTimestamp
                 )
             }
         )

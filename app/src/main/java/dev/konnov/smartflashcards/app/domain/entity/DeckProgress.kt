@@ -5,7 +5,12 @@ data class DeckProgress(
     val progress: List<CardProgress>
 )
 
-data class CardProgress(val cardId: CardId, val retention: Retention, val timesCardShown: Int)
+data class CardProgress(
+    val cardId: CardId,
+    val retention: Retention,
+    val timesCardShown: Int,
+    val lastShownTimestamp: Long
+)
 
 enum class Retention(val retentionLevel: Int) {
     COMPLETELY_FORGOT(1),

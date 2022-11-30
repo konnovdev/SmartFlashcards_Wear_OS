@@ -24,11 +24,13 @@ class DeckProgressDataSource @Inject constructor(
         val card =
             deckProgressDao.getAll().find { it.cardId == cardId } // use SELECT WHERE statement
 
+        val currentTimestamp = System.currentTimeMillis()
+
         if (card == null) {
             val cardProgress = if (correct) {
-                CardProgressModel(deckId, cardId, 3, 1)
+                CardProgressModel(deckId, cardId, 3, 1, currentTimestamp)
             } else {
-                CardProgressModel(deckId, cardId, 1, 1)
+                CardProgressModel(deckId, cardId, 1, 1, currentTimestamp)
             }
             deckProgressDao.insertDeck(cardProgress)
         } else {
@@ -45,7 +47,13 @@ class DeckProgressDataSource @Inject constructor(
                 newRetention = 5
             }
             val cardProgress =
-                CardProgressModel(deckId, cardId, newRetention, card.times_card_shown + 1)
+                CardProgressModel(
+                    deckId,
+                    cardId,
+                    newRetention,
+                    card.timesCardShown + 1,
+                    currentTimestamp
+                )
 
             deckProgressDao.insertDeck(cardProgress)
         }

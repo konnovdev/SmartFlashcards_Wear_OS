@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class SmartCardSelectorDataSource @Inject constructor() {
 
-    suspend fun selectNextCard(deckProgress: DeckProgress, cards: List<Card>): Int = selectMock(deckProgress, cards)
+    fun selectNextCard(deckProgress: DeckProgress, cards: List<Card>): Int = selectMock(deckProgress, cards)
 
     private fun selectMock(deckProgress: DeckProgress, cards: List<Card>): Int =
         cards.map { it.id.value }
