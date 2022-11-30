@@ -77,6 +77,7 @@ class CardScreenViewModel @Inject constructor(
                     cardsShown++
                 }
                 .onFailure {
+                    _state.value = CardScreenState.Finish
                     Log.e("CardScreenViewModel", "Error while loading new card", it)
                 }
         }
