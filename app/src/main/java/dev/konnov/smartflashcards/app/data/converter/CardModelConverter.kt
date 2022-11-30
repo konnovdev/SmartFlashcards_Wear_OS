@@ -19,7 +19,6 @@ class CardModelConverter @Inject constructor() {
         val contentStr = String(content)
         val lines = contentStr.split("\n")
         lines
-            .drop(1)
             .forEachIndexed { index, s ->
             val cardContentSplit = s.split(",")
             val cardFront = cardContentSplit[0]

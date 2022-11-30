@@ -1,12 +1,12 @@
 package dev.konnov.smartflashcards.app.data.datasource
 
 import dev.konnov.smartflashcards.app.domain.entity.Card
-import dev.konnov.smartflashcards.app.domain.entity.CardId
 import dev.konnov.smartflashcards.app.domain.entity.DeckProgress
 import dev.konnov.smartflashcards.app.domain.entity.Retention.KNOW_BY_HEART
 import dev.konnov.smartflashcards.app.domain.entity.Retention.COMPLETELY_FORGOT
 import dev.konnov.smartflashcards.app.domain.entity.Retention.PARTIALLY_FORGOT
 import dev.konnov.smartflashcards.app.domain.entity.Retention.SOMEWHAT_REMEMBER
+import java.util.*
 import javax.inject.Inject
 
 class SmartCardSelectorDataSource @Inject constructor() {
@@ -36,7 +36,8 @@ class SmartCardSelectorDataSource @Inject constructor() {
 
         for (i in 0 until cards.size) {
             for (j in 0 until cards.size) {
-                if (cards[j].front.contains(cards[i].front)
+                if (cards[j].front.lowercase(Locale.getDefault())
+                        .contains(cards[i].front.lowercase(Locale.getDefault()))
                     && cards[i].id in deckProgress.progress.map { it.cardId }
                     && (deckProgress.progress.find { it.cardId == cards[i].id }?.retention
                         ?: COMPLETELY_FORGOT) in SOMEWHAT_REMEMBER..KNOW_BY_HEART
