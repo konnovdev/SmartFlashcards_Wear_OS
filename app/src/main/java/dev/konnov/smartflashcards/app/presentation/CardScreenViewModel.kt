@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CardScreenViewModel @Inject constructor(
-    private val getNumOfCardsToShowUseCase: GetNumOfCardsToShowOnLaunchUseCase,
+    getNumOfCardsToShowUseCase: GetNumOfCardsToShowOnLaunchUseCase,
     private val getNextCardUseCase: GetNextCardUseCase,
     private val setCardAnsweredUseCase: SetCardAnsweredUseCase
 ) : ViewModel() {
@@ -41,20 +41,20 @@ class CardScreenViewModel @Inject constructor(
             }
 
             CardScreenAction.CardCorrect -> {
-                if (cardsShown >= numOfCardsToShow) {
-                    _state.value = CardScreenState.Finish
-                } else {
-                    setCurrentCardAnswered(answeredCorrectly = true) {
+                setCurrentCardAnswered(answeredCorrectly = true) {
+                    if (cardsShown >= numOfCardsToShow) {
+                        _state.value = CardScreenState.Finish
+                    } else {
                         loadNewCard()
                     }
                 }
             }
 
             CardScreenAction.CardWrong -> {
-                if (cardsShown >= numOfCardsToShow) {
-                    _state.value = CardScreenState.Finish
-                } else {
-                    setCurrentCardAnswered(answeredCorrectly = false) {
+                setCurrentCardAnswered(answeredCorrectly = false) {
+                    if (cardsShown >= numOfCardsToShow) {
+                        _state.value = CardScreenState.Finish
+                    } else {
                         loadNewCard()
                     }
                 }
