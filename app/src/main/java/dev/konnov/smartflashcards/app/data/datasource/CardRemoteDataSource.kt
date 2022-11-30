@@ -22,7 +22,7 @@ class CardRemoteDataSource @Inject constructor(
 
     // Deck id is not needed for MVP
     suspend fun getAll(deckId: String): List<CardModel> {
-        val url = "https://chineseguide.net/sandbox/files/ankitest.csv" // temporary URL
+        val url = "https://chineseguide.net/sandbox/files/ankitest3.txt" // temporary URL
 
         val response = client.get(url)
 
